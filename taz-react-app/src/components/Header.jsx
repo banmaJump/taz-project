@@ -1,0 +1,116 @@
+import React, { useState, useRef, useEffect } from 'react';
+
+const Header = ({ onSearch }) => {
+    const [searchVisible, setSearchVisible] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [menuVisible, setMenuVisible] = useState(false);
+    const searchInputRef = useRef(null);
+
+    const handleSearchClick = (event) => {
+        event.preventDefault();
+        setSearchVisible(!searchVisible);
+        if (!searchVisible) {
+            searchInputRef.current.focus();
+        }
+    };
+
+    const handleSearchInputChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    const handleSearchInputBlur = () => {
+        setTimeout(() => {
+            setSearchVisible(false);
+        }, 100);
+    };
+
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+        onSearch(searchQuery);
+    };
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.keyCode === 27 && searchVisible) {
+                searchInputRef.current.blur();
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [searchVisible]);
+
+    const handleMenuClick = (event) => {
+        event.preventDefault();
+        setMenuVisible(!menuVisible);
+    };
+
+    return (
+        <header id="header">
+            <h1><a href="index.html">Taz=Bones</a></h1>
+            <nav className="links">
+                <ul>
+                    <li><a href="/">ホーム</a></li>
+                    <li><a href="/profile">遍歴</a></li>
+                    <li><a href="/articles">ブログ</a></li>
+                    <li><a href="/contact_us">コンタクト</a></li>
+                    <li><a href="social_media">各種SNS</a></li>
+                </ul>
+            </nav>
+            <nav className="main">
+                <ul>
+                    <li className="search">
+                        <a className="fa-search" href="#search" onClick={handleSearchClick}>壊れてるから使うな</a>
+                        <form id="search" className={searchVisible ? 'visible' : ''} onSubmit={handleSearchSubmit}>
+                            <input
+                                type="text"
+                                name="query"
+                                placeholder="Search"
+                                value={searchQuery}
+                                onChange={handleSearchInputChange}
+                                onBlur={handleSearchInputBlur}
+                                ref={searchInputRef}
+                            />
+                        </form>
+                    </li>
+                    <li className="menu">
+                        <a className="fa-bars" href="#menu" onClick={handleMenuClick}>Menu</a>
+                    </li>
+                </ul>
+            </nav>
+            <section id="menu" className={menuVisible ? 'is-menu-visible' : ''}>
+                <section>
+                    <form className="search" onSubmit={handleSearchSubmit}>
+                        <input
+                            type="text"
+                            name="query"
+                            placeholder="壊れてるから使うな"
+                            value={searchQuery}
+                            onChange={handleSearchInputChange}
+                            onBlur={handleSearchInputBlur}
+                            ref={searchInputRef}
+                        />
+                    </form>
+                </section>
+                <section>
+                    <ul className="links">
+                        <li><a href="/"><h3>ホーム</h3><p>Feugiat tempus veroeros dolor</p></a></li>
+                        <li><a href="/profile"><h3>遍歴</h3><p>Sed vitae justo condimentum</p></a></li>
+                        <li><a href="/articles"><h3>ブログ</h3><p>Phasellus sed ultricies mi congue</p></a></li>
+                        <li><a href="/contact_us"><h3>コンタクト</h3><p>Porta lectus amet ultricies</p></a></li>
+                    </ul>
+                </section>
+                <section>
+                    <ul className="actions stacked">
+                        <li><a href="#" className="button large fit">Log In</a></li>
+                    </ul>
+                </section>
+            </section>
+        </header>
+    );
+};
+
+export default Header;
