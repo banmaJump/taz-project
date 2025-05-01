@@ -1,66 +1,67 @@
 import React, { useState, useEffect } from 'react';
-import Intro from './Intro';
-import Post from './Post';
+import Intro from '../components/Intro';
+import PostsList from '../components/PostsList';
+import Pagination from '../components/Pagination';
 
 const Main = () => {
     const [posts, setPosts] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const itemsPerPage = 10;
 
     useEffect(() => {
         const fetchPosts = async () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/posts?page=${currentPage}`);
+                const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/posts?page=${currentPage}&limit=${itemsPerPage}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch posts');
                 }
                 const data = await response.json();
+                console.log('API Response Data:', data);
                 setPosts(data.posts);
-                setTotalPages(data.totalPages);
+                console.log('Updated posts state:', posts);
+                const calculatedTotalPages = Math.ceil(data.totalCount / itemsPerPage);
+                setTotalPages(calculatedTotalPages);
+                console.log('Total Pages:', calculatedTotalPages); // ← 追加: totalPages のログ出力
             } catch (err) {
                 console.error('Error fetching posts:', err);
-                setError(err.message);
+                setError(`Failed to fetch posts: ${err.message}`);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchPosts();
-    }, [currentPage]);
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
+    }, [currentPage, itemsPerPage]);
 
     const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
+        setCurrentPage(prevPage => prevPage + 1);
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    const handlePrevPage = () => {
+        setCurrentPage(prevPage => prevPage - 1);
+    };
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error}</div>;
 
     return (
         <div id="main">
             <Intro />
-            <Post posts={posts} />
-            <ul className="actions pagination">
-                <li><a onClick={handlePreviousPage} className={`button large previous ${currentPage === 1 ? 'disabled' : ''}`}>前のページへ</a></li>
-                <li><span>{currentPage} / {totalPages}</span></li>
-                <li><a onClick={handleNextPage} className={`button large next ${currentPage === totalPages ? 'disabled' : ''}`}>次のページへ</a></li>
-            </ul>
+            <PostsList posts={posts} />
+            {console.log('Posts prop passed to PostsList:', posts)}
+            {totalPages > 1 && (
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onNextPage={handleNextPage}
+                    onPrevPage={handlePrevPage}
+                />
+            )}
         </div>
     );
 };

@@ -13,7 +13,7 @@ const PostDetail = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://localhost:3001/api/posts/${id}`);
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/posts/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch post');
         }

@@ -1,10 +1,13 @@
+// /taz-react-app/src/components/Header.jsx
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
 
 const Header = ({ onSearch }) => {
     const [searchVisible, setSearchVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [menuVisible, setMenuVisible] = useState(false);
     const searchInputRef = useRef(null);
+    const navigate = useNavigate(); // useNavigate を初期化
 
     const handleSearchClick = (event) => {
         event.preventDefault();
@@ -26,7 +29,17 @@ const Header = ({ onSearch }) => {
 
     const handleSearchSubmit = (event) => {
         event.preventDefault();
-        onSearch(searchQuery);
+        const query = searchQuery.trim();
+        if (!query || typeof query !== 'string' || query.length > 100) {
+            alert('検索キーワードが不正です。');
+            return;
+        }
+        if (query.length < 1) {
+            alert('検索語は1文字以上で入力してください');
+            return;
+        }
+        // onSearch(query); // 親コンポーネントへのコールバックではなく、リダイレクト
+        navigate(`/search?query=${encodeURIComponent(query)}`);
     };
 
     useEffect(() => {
@@ -50,20 +63,20 @@ const Header = ({ onSearch }) => {
 
     return (
         <header id="header">
-            <h1><a href="index.html">Taz=Bones</a></h1>
+            <h1><a href="/">Taz=Bones</a></h1>
             <nav className="links">
                 <ul>
                     <li><a href="/">ホーム</a></li>
                     <li><a href="/profile">遍歴</a></li>
                     <li><a href="/articles">ブログ</a></li>
                     <li><a href="/contact_us">コンタクト</a></li>
-                    <li><a href="social_media">各種SNS</a></li>
+                    <li><a href="/social_media">各種SNS</a></li>
                 </ul>
             </nav>
             <nav className="main">
                 <ul>
                     <li className="search">
-                        <a className="fa-search" href="#search" onClick={handleSearchClick}>壊れてるから使うな</a>
+                        <a className="fa-search" href="#search" onClick={handleSearchClick}>検索</a>
                         <form id="search" className={searchVisible ? 'visible' : ''} onSubmit={handleSearchSubmit}>
                             <input
                                 type="text"
@@ -87,7 +100,7 @@ const Header = ({ onSearch }) => {
                         <input
                             type="text"
                             name="query"
-                            placeholder="壊れてるから使うな"
+                            placeholder="Search"
                             value={searchQuery}
                             onChange={handleSearchInputChange}
                             onBlur={handleSearchInputBlur}
@@ -105,7 +118,7 @@ const Header = ({ onSearch }) => {
                 </section>
                 <section>
                     <ul className="actions stacked">
-                        <li><a href="#" className="button large fit">Log In</a></li>
+                        <li><button href="#" className="button large fit">Log In</button></li>
                     </ul>
                 </section>
             </section>

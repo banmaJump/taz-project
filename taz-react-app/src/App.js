@@ -5,6 +5,7 @@ import Main from './components/Main';
 import Sidebar from './components/Sidebar';
 import Foot from './components/Foot';
 import PostDetail from './components/PostDetail';
+import SearchResultPage from './components/SearchResultPage';
 import './styles/sass/App.scss';
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
         <Routes>
           <Route exact path="/" element={<Main />} />
           <Route path="/post/:id" element={<PostDetail />} />
+          <Route path="/search" element={<SearchResultPage />} />
         </Routes>
         <Sidebar />
         <Foot />
