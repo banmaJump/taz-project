@@ -12,6 +12,8 @@
 		list-style: none;
 		margin-left: (_size(element-margin) * -0.5);
 		padding-left: 0;
+		justify-content: center;
+		align-items: center;
 
 		li {
 			padding: 0 0 0 (_size(element-margin) * 0.5);

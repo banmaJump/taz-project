@@ -42,8 +42,13 @@ const PostDetail = () => {
     return <div>Post not found</div>;
   }
 
+  
+
   return (
     <div>
+      {post.image_url && (
+        <img src={post.image_url} alt={post.title} style={{ maxWidth: '100%', height: 'auto', padding: '5%' }} />
+      )}
       <h2>{post.title}</h2>
       <p>{post.content}</p>
     </div>
