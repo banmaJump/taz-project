@@ -1,16 +1,18 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Main from './components/Main';
 import Sidebar from './components/Sidebar';
 import Foot from './components/Foot';
 import PostDetail from './components/PostDetail';
 import SearchResultPage from './components/SearchResultPage';
+import ScrollToTop from './components/ScrollToTop'; // ScrollToTop をインポート
 import './styles/sass/App.scss';
 
 const App = () => {
   return (
     <Router>
+      <ScrollToTop /> {/* ScrollToTop コンポーネントを配置 */}
       <div id="wrapper">
         <Header />
         <Routes>

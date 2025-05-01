@@ -1,13 +1,13 @@
 // /taz-react-app/src/components/Header.jsx
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // useNavigate をインポート
+import { useNavigate } from 'react-router-dom';
 
-const Header = ({ onSearch }) => {
+const Header = () => { // onSearch プロップは不要になったため削除
     const [searchVisible, setSearchVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [menuVisible, setMenuVisible] = useState(false);
     const searchInputRef = useRef(null);
-    const navigate = useNavigate(); // useNavigate を初期化
+    const navigate = useNavigate();
 
     const handleSearchClick = (event) => {
         event.preventDefault();
@@ -38,8 +38,9 @@ const Header = ({ onSearch }) => {
             alert('検索語は1文字以上で入力してください');
             return;
         }
-        // onSearch(query); // 親コンポーネントへのコールバックではなく、リダイレクト
         navigate(`/search?query=${encodeURIComponent(query)}`);
+        setSearchQuery(''); // 検索後、入力欄をクリア
+        setSearchVisible(false); // 検索後、検索バーを閉じる
     };
 
     useEffect(() => {
@@ -118,7 +119,7 @@ const Header = ({ onSearch }) => {
                 </section>
                 <section>
                     <ul className="actions stacked">
-                        <li><button href="#" className="button large fit">Log In</button></li>
+                        <li><button className="button large fit">Log In</button></li>
                     </ul>
                 </section>
             </section>

@@ -7,8 +7,17 @@ const MiniPost = ({ post }) => {
         return null;
     }
 
-    const categoryImageUrl = `${process.env.PUBLIC_URL}/images/${post.category_img_url}`; // カテゴリ画像のパスを生成
-    const postImageUrl = `${process.env.PUBLIC_URL}/images/${post.image_url}`; // 投稿画像のパスを生成
+    const isExternal = (url) => {
+        return url && (url.startsWith('http://') || url.startsWith('https://'));
+    };
+
+    const categoryImageUrl = isExternal(post.category_img_url)
+        ? post.category_img_url
+        : `${process.env.PUBLIC_URL}/images/${post.category_img_url}`;
+
+    const postImageUrl = isExternal(post.image_url)
+        ? post.image_url
+        : `${process.env.PUBLIC_URL}/images/${post.image_url}`;
 
     return (
         <article className="mini-post">

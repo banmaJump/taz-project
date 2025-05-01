@@ -1,9 +1,7 @@
 // /taz-react-app/src/components/PostsList.jsx
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 
-const PostsList = ({ posts }) => {
-    const navigate = useNavigate();
+const PostsList = ({ posts, searchQuery }) => { // posts プロップを追加
 
     if (!posts) {
         return <div>Loading posts...</div>;
@@ -12,6 +10,9 @@ const PostsList = ({ posts }) => {
     return (
         <section>
             <ul className="posts">
+                {posts.length === 0 && searchQuery && (
+                    <li>「{searchQuery}」に一致する検索結果はありません。</li>
+                )}
                 {posts.map((post) => (
                     <li key={post.id}>
                         <article>

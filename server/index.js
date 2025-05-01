@@ -44,9 +44,6 @@ app.get('/api/posts', async (req, res) => {
   const limit = parseInt(req.query.limit) || 10;
   const offset = (page - 1) * limit;
 
-  console.log('Request Query:', req.query);
-  console.log('Page:', page, 'Limit:', limit, 'Offset:', offset);
-
   try {
       const [totalCountResult] = await pool.query('SELECT COUNT(*) AS total FROM posts');
       const totalCount = totalCountResult[0].total;
@@ -58,9 +55,8 @@ app.get('/api/posts', async (req, res) => {
           ORDER BY posts.published_at DESC
           LIMIT ? OFFSET ?
       `;
-      console.log('Executing Query:', query, [limit, offset]);
+
       const [results] = await pool.query(query, [limit, offset]);
-      console.log('Fetched Results Count:', results.length);
 
       res.json({
           posts: results,
