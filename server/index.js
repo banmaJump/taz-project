@@ -150,7 +150,7 @@ require('dotenv').config();
 
 const app = express();
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://taz-project.onrender.com'],
+  origin: ['http://localhost:3000', 'https://taz-project.onrender.com', 'https://taz-bones.onrender.com'],
 };
 app.use(cors(corsOptions));
 app.use(express.json());
