@@ -221,9 +221,9 @@ app.get('/api/posts/ordered', async (req, res) => {
       FROM posts p
       JOIN categories c ON p.category_id = c.id
       WHERE p.id IN (${placeholders})
-      ORDER BY array_position(ARRAY[${placeholders}], p.id)
+      ORDER BY array_position(ARRAY[${postIds.join(',')}], p.id)
     `;
-    const result = await pool.query(query, [...postIds, ...postIds]);
+    const result = await pool.query(query, postIds);
     res.json(result.rows);
   } catch (error) {
     console.error('データベースクエリ中にエラーが発生しました:', error.message);
