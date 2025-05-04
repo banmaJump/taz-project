@@ -143,6 +143,7 @@
 //   console.log(`http://localhost:${port}に接続中！`);
 // });
 
+//postgreSQL
 const express = require('express');
 const { Pool } = require('pg');
 const cors = require('cors');
@@ -150,7 +151,7 @@ require('dotenv').config();
 
 const app = express();
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://taz-project.onrender.com', 'https://taz-bones.onrender.com'],
+  origin: ['http://localhost:3000', 'http://localhost:3010', 'https://taz-project.onrender.com', 'https://taz-bones.onrender.com'],
 };
 app.use(cors(corsOptions));
 app.use(express.json());

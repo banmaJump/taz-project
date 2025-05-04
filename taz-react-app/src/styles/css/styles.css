@@ -1,0 +1,281 @@
+/* src/styles/css/Header.css */
+
+body {
+    padding-top: 3.5em; /* ヘッダーの高さ分だけコンテンツを下げる */
+  }
+  
+  #header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+    border-bottom: solid 1px #ddd;
+    height: 3.5em;
+    left: 0;
+    line-height: 3.5em;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 100;
+  }
+  
+  #header h1 {
+    height: inherit;
+    line-height: inherit;
+    padding: 0 1.5em;
+    white-space: nowrap;
+  }
+  
+  #header h1 a {
+    font-size: 1em;
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+  }
+  
+  #header .links {
+    flex: 1;
+    border-left: solid 1px #ddd;
+    height: inherit;
+    line-height: inherit;
+    margin-left: 1.5em;
+    overflow: hidden;
+    padding-left: 1.5em;
+  }
+  
+  #header .links ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  #header .links ul li {
+    border-left: solid 1px #ddd;
+    line-height: 1;
+    margin-left: 1em;
+    padding-left: 1em;
+  }
+  
+  #header .links ul li:first-child {
+    border-left: 0;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  
+  #header .links ul li a {
+    border-bottom: none;
+    font-size: 0.8em;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  #header .main {
+    height: inherit;
+    line-height: inherit;
+    text-align: right;
+    padding-right: 1.5em;
+  }
+  
+  #header .main ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  #header .main ul li {
+    margin-left: 1em;
+  }
+  
+  #header .main ul li:first-child {
+    margin-left: 0;
+  }
+  
+  #header .main ul li a {
+    display: block;
+    color: #777;
+    text-decoration: none;
+    font-size: 0.8em;
+  }
+  
+  #header .main ul li a.fa-search::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content: '\f002';
+  }
+  
+  #header .main ul li a.fa-bars::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content: '\f0c9';
+  }
+  
+  #header .main ul li .search-icon-wrapper {
+    position: absolute; /* フォームの前に重ねる */
+    top: 0;
+    right: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-right: 0.5em; /* 検索アイコンが見えるように */
+    cursor: pointer;
+    z-index: 102; /* フォームより前面に */
+  }
+  
+  #header .main ul li .search-icon-wrapper a {
+    color: inherit; /* アイコンの色を継承 */
+    text-decoration: none; /* リンクの下線を消す */
+    display: block; /* aタグをブロック要素にする */
+    line-height: 1; /* 行の高さを調整 */
+  }
+  
+  #header .main ul li .search-icon-wrapper a::before {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    content: '\f002'; /* 虫眼鏡アイコン */
+    font-size: 0.8em; /* アイコンのサイズ調整 */
+  }
+  
+  #header .main ul li form#search {
+    /* ... 既存のスタイル */
+    padding-right: 2em; /* アイコン分の右側の padding を確保 */
+  }
+  
+  #header .main ul li form#search input[type="text"] {
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9em;
+    padding-right: 2.5em; /* アイコンが重ならないように入力欄の右側 padding を調整 */
+  }
+  
+  @media (max-width: 768px) {
+    #header .links {
+      display: none; /* スマホサイズではメインのナビゲーションを非表示 */
+    }
+  }
+  
+  @media (min-width: 769px) {
+    #header .main .menu {
+      display: none; /* PC サイズではハンバーガーメニューのアイコンを非表示 */
+    }
+  }
+  
+  @media (max-width: 480px) {
+    #header h1 {
+      font-size: 1.2em;
+      padding: 0 1em;
+    }
+  
+    #header .main ul li a {
+      font-size: 1em;
+    }
+  }
+  
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明の背景 */
+    z-index: 109; /* ヘッダーより下、メニューより上 */
+  }
+  
+  #menu {
+    position: fixed;
+    top: 0;
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background: #333;
+    color: #fff;
+    z-index: 110; /* オーバーレイより上に */
+    overflow-y: auto;
+    transition: right 0.3s ease-in-out;
+  }
+  
+  #menu.is-menu-visible {
+    right: 0;
+  }
+  
+  #menu > section {
+    padding: 2em;
+  }
+  
+  #menu > section:first-child {
+    padding-top: 4em;
+  }
+  
+  #menu h3 {
+    color: #fff;
+    margin-bottom: 0.5em;
+  }
+  
+  #menu p {
+    color: #ddd;
+    font-size: 0.9em;
+    line-height: 1.5;
+  }
+  
+  #menu ul.links {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 2em;
+  }
+  
+  #menu ul.links li a {
+    display: block;
+    padding: 0.75em 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  #menu ul.links li a:last-child {
+    border-bottom: none;
+  }
+  
+  #menu ul.links li a h3 {
+    margin-bottom: 0.25em;
+  }
+  
+  #menu ul.actions.stacked {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  #menu ul.actions.stacked li {
+    padding: 0.5em 0;
+  }
+  
+  #menu ul.actions.stacked li .button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #555;
+    color: #fff;
+    padding: 0.75em;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  
+  #menu.search input[type="text"] {
+    width: 100%;
+    padding: 0.75em;
+    border: none;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border-radius: 4px;
+  }
+  
+  @media (min-width: 769px) {
+    #menu {
+      display: none !important;
+    }
+  }

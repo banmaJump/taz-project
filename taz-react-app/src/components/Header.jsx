@@ -1,8 +1,9 @@
 // /taz-react-app/src/components/Header.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../styles/css/styles.css'; // または './Header.css'
 
-const Header = () => { // onSearch プロップは不要になったため削除
+const Header = () => {
     const [searchVisible, setSearchVisible] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [menuVisible, setMenuVisible] = useState(false);
@@ -62,6 +63,10 @@ const Header = () => { // onSearch プロップは不要になったため削除
         setMenuVisible(!menuVisible);
     };
 
+    const closeMenu = () => {
+        setMenuVisible(false);
+    };
+
     return (
         <header id="header">
             <h1><a href="/">Taz=Bones</a></h1>
@@ -77,7 +82,31 @@ const Header = () => { // onSearch プロップは不要になったため削除
             <nav className="main">
                 <ul>
                     <li className="search">
-                        <a className="fa-search" href="#search" onClick={handleSearchClick}>検索</a>
+                        <li className="search">
+                            <div className="search-icon-wrapper" onClick={() => {
+                                if (searchVisible && searchInputRef.current) {
+                                    handleSearchSubmit({ preventDefault: () => { } }); // フォーム送信
+                                } else {
+                                    handleSearchClick({ preventDefault: () => { } }); // 検索バー表示
+                                    setTimeout(() => {
+                                        searchInputRef.current.focus();
+                                    }, 100);
+                                }
+                            }}>
+                                <a className="fa-search" href="#search" tabIndex="-1" aria-label="検索"></a> {/* アイコンのみ */}
+                            </div>
+                            <form id="search" className={searchVisible ? 'visible' : ''} onSubmit={handleSearchSubmit}>
+                                <input
+                                    type="text"
+                                    name="query"
+                                    placeholder="Search"
+                                    value={searchQuery}
+                                    onChange={handleSearchInputChange}
+                                    onBlur={handleSearchInputBlur}
+                                    ref={searchInputRef}
+                                />
+                            </form>
+                        </li>
                         <form id="search" className={searchVisible ? 'visible' : ''} onSubmit={handleSearchSubmit}>
                             <input
                                 type="text"
@@ -95,6 +124,7 @@ const Header = () => { // onSearch プロップは不要になったため削除
                     </li>
                 </ul>
             </nav>
+            {menuVisible && <div className="menu-overlay" onClick={closeMenu}></div>}
             <section id="menu" className={menuVisible ? 'is-menu-visible' : ''}>
                 <section>
                     <form className="search" onSubmit={handleSearchSubmit}>
@@ -111,15 +141,15 @@ const Header = () => { // onSearch プロップは不要になったため削除
                 </section>
                 <section>
                     <ul className="links">
-                        <li><a href="/"><h3>ホーム</h3><p>Feugiat tempus veroeros dolor</p></a></li>
-                        <li><a href="/profile"><h3>遍歴</h3><p>Sed vitae justo condimentum</p></a></li>
-                        <li><a href="/articles"><h3>ブログ</h3><p>Phasellus sed ultricies mi congue</p></a></li>
-                        <li><a href="/contact_us"><h3>コンタクト</h3><p>Porta lectus amet ultricies</p></a></li>
+                        <li><a href="/" onClick={closeMenu}><h3>ホーム</h3><p>Feugiat tempus veroeros dolor</p></a></li>
+                        <li><a href="/profile" onClick={closeMenu}><h3>遍歴</h3><p>Sed vitae justo condimentum</p></a></li>
+                        <li><a href="/articles" onClick={closeMenu}><h3>ブログ</h3><p>Phasellus sed ultricies mi congue</p></a></li>
+                        <li><a href="/contact_us" onClick={closeMenu}><h3>コンタクト</h3><p>Porta lectus amet ultricies</p></a></li>
                     </ul>
                 </section>
                 <section>
                     <ul className="actions stacked">
-                        <li><button className="button large fit">Log In</button></li>
+                        <li><button className="button large fit" onClick={closeMenu}>Log In</button></li>
                     </ul>
                 </section>
             </section>

@@ -41,22 +41,23 @@
 		// 		target: $body,
 		// 		visibleClass: 'is-menu-visible'
 		// 	});
-		$(document).ready(function() {
-			$menu = $('#menu');
+
+		// $(document).ready(function() {
+		// 	$menu = $('#menu');
 		
-			$menu
-			.appendTo($body)
-			.panel({
-				delay: 500,
-				hideOnClick: true,
-				hideOnSwipe: true,
-				resetScroll: true,
-				resetForms: true,
-				side: 'right',
-				target: $body,
-				visibleClass: 'is-menu-visible'
-			});
-		});
+		// 	$menu
+		// 	.appendTo($body)
+		// 	.panel({
+		// 		delay: 500,
+		// 		hideOnClick: true,
+		// 		hideOnSwipe: true,
+		// 		resetScroll: true,
+		// 		resetForms: true,
+		// 		side: 'right',
+		// 		target: $body,
+		// 		visibleClass: 'is-menu-visible'
+		// 	});
+		// });
 
 	// Search (header).
 		var $search = $('#search'),
